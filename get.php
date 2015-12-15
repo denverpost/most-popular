@@ -1,6 +1,8 @@
 <?php
 $article = article_lookup(intval($_GET['id']));
-echo $article['title'];
+$json = intval($_GET['json']);
+if ( $json == 0 ) echo $article['title'];
+else echo '{ "title": "' . addslashes($article['title']) . '" }';
 
 
 function article_lookup($article_id, $return='title')
