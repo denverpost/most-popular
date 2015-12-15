@@ -1,11 +1,15 @@
 <?php
-$article = article_lookup(intval($_GET['id']));
+// Take a URL and return the text in the first h1 element.
+
+
+
+$article = ngps_article_lookup(intval($_GET['id']));
 $json = intval($_GET['json']);
 if ( $json == 0 ) echo $article['title'];
 else echo '{ "title": "' . addslashes($article['title']) . '" }';
 
 
-function article_lookup($article_id, $return='title')
+function ngps_article_lookup($article_id, $return='title')
 {
     // Pull an article, take its pieces. Sometimes we just want the title, sometimes we want more.
     $url = 'http://www.mercurynews.com/portlet/article/html/fragments/print_article.jsp?articleId=' . $article_id . '&amp;siteId=36';
