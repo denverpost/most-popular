@@ -83,7 +83,7 @@ class Sheet:
 def main(args):
     """ Take args as key=value pairs, pass them to the add_filter method.
         Example command:
-        $ python spreadsheet.py
+        $ python writesheet.py test
         """
     if args:
         for worksheet in args.sheets[0]:
@@ -92,7 +92,7 @@ def main(args):
             sheet.fix()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(usage='$ python spreadsheet.py',
+    parser = argparse.ArgumentParser(usage='$ python writesheet.py',
                                      description='',
                                      epilog='')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
