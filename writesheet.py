@@ -39,8 +39,7 @@ class Sheet:
         self.sheet_name = sheet_name
         self.filters = None
         if worksheet:
-            self.open_worksheet(worksheet)
-            self.worksheet = worksheet
+            self.worksheet = self.open_worksheet(worksheet)
 
     def set_options(self, options):
         """ Set the objects options var.
@@ -64,7 +63,7 @@ class Sheet:
         """ Publish the data in whatever permutations we need.
             This assumes the spreadsheet's key names are in the first row.
             >>> sheet = Sheet('test-sheet', 'worksheet-name')
-            >>> sheet.publish()
+            >>> sheet.fix()
             True
             """
         if not self.sheet or worksheet:
@@ -73,7 +72,8 @@ class Sheet:
         if not worksheet:
             worksheet = self.worksheet
 
-        cell_list = worksheet.range('A1:C200')
+        print worksheet
+        cell_list = worksheet.get_all_values()
         for row in cell_list:
             print row
 
@@ -87,6 +87,7 @@ def main(args):
         """
     if args:
         for worksheet in args.sheets[0]:
+            print worksheet
             sheet = Sheet('popular', worksheet)
             sheet.set_options(args)
             sheet.fix()
