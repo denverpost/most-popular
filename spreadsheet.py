@@ -73,6 +73,10 @@ class Sheet:
         if not worksheet:
             worksheet = self.worksheet
 
+        cell_list = worksheet.range('A1:C200')
+        for row in cell_list:
+            print row
+
         return True
 
 
@@ -82,8 +86,8 @@ def main(args):
         $ python spreadsheet.py
         """
     if args:
-        for sheet in args.sheets[0]:
-            sheet = Sheet('popular', sheet)
+        for worksheet in args.sheets[0]:
+            sheet = Sheet('popular', worksheet)
             sheet.set_options(args)
             sheet.fix()
 

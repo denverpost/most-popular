@@ -1,5 +1,8 @@
 # Most Popular
 
+# Dev notes
+When figuring out Oauth2 access, always always use http://gspread.readthedocs.org/en/latest/oauth2.html
+
 # License
 The MIT License (MIT)
 
