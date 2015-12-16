@@ -74,7 +74,11 @@ class Sheet:
 
         cell_list = worksheet.get_all_values()
         for row in cell_list:
-            print row
+            # If row[0] has 'http://' in it then we're dealing with a GA row
+            # that needs to be fixed.
+            # row[0] should contain the title, row[1] the PVs, row[2] the URL.
+            if 'http://' in row[0]:
+                print row
 
         return True
 
