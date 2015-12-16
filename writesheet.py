@@ -72,7 +72,6 @@ class Sheet:
         if not worksheet:
             worksheet = self.worksheet
 
-        print worksheet
         cell_list = worksheet.get_all_values()
         for row in cell_list:
             print row
@@ -86,10 +85,10 @@ def main(args):
         $ python writesheet.py test
         """
     if args:
+        sheet = Sheet('popular')
+        sheet.set_options(args)
         for worksheet in args.sheets[0]:
-            print worksheet
-            sheet = Sheet('popular', worksheet)
-            sheet.set_options(args)
+            sheet.worksheet = sheet.open_worksheet(worksheet)
             sheet.fix()
 
 if __name__ == '__main__':
