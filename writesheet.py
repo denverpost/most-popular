@@ -73,12 +73,23 @@ class Sheet:
             worksheet = self.worksheet
 
         cell_list = worksheet.get_all_values()
+        i = 0
         for row in cell_list:
+            i += 1
             # If row[0] has 'http://' in it then we're dealing with a GA row
             # that needs to be fixed.
             # row[0] should contain the title, row[1] the PVs, row[2] the URL.
             if 'http://' in row[0]:
                 print row
+
+                # Fix PVs
+                # Note that update_cell is 1-indexed.
+                worksheet.update_cell(i, 2, row[1].replace(',', ''))
+
+                # Get title
+
+                # Move URL to the third column
+                worksheet.update_cell(i, 3, row[0])
 
         return True
 
