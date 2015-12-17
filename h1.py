@@ -32,9 +32,16 @@ class h1:
         return content
 
     def extract(self, element):
-        """ Return the first matching element.
+        """ Return the text first matching element.
+            *** What if we just want an attribute value?
             """
-        pass
+        pattern = '.*<%s>([^<]+)<\/%s>' % ( element, element )
+        if "." in element:
+            items = element.split('.')
+            pattern = '.*<%s\ class="%s">([^<]+)<\/%s>' % ( items[0], items[1], items[0] )
+
+        result = re.match(pattern, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        return result
 
 def main(args):
     """ 
@@ -44,12 +51,11 @@ def main(args):
     if args:
         extract = h1()
         extract.set_options(args)
-        print args
-        #extract.content = extract.request
+        extract.content = extract.request(args.url)
         for element in args.elements[0]:
-
-            sheet.worksheet = sheet.open_worksheet(worksheet)
-            sheet.fix()
+            value = extract.extract(element)
+            if value:
+                print value.group(1)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python h1.py',
