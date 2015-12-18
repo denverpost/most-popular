@@ -86,6 +86,7 @@ class Sheet:
                 # Fix PVs
                 # Note that update_cell is 1-indexed.
                 worksheet.update_cell(i, 2, row[1].replace(',', ''))
+                worksheet.update_cell(i, 2, 'hi')
 
                 # Get title.
                 # If we have a blog post then it's a h1.
