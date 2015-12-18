@@ -31,39 +31,39 @@ class h1:
             sys.exit(1)
         return content
 
-    def extract(self, element):
+    def extract(self, pattern):
         """ Return the text first matching element.
             *** What if we just want an attribute value?
             """
-        pattern = '.*<%s>([^<]+)<\/%s>' % ( element, element )
-        if "." in element:
-            items = element.split('.')
-            pattern = '.*<%s\ class="%s">([^<]+)<\/%s>' % ( items[0], items[1], items[0] )
-
-        result = re.match(pattern, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        regex = '.*<%s>([^<]+)<\/%s>' % ( pattern, pattern )
+        if ',' in pattern:
+            items = pattern.split(',')
+            regex = '.*<%s>([^<]+)<\/%s>' % ( items[0], items[1] )
+        print regex
+        result = re.match(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         return result
 
 def main(args):
     """ 
         Example command:
-        $ python h1.py --url http://www.denverpost.com/ h1 title meta.robots
+        $ python h1.py --url http://www.denverpost.com/ "h1 class='articleTitle',h1" "title,title"
         """
     if args:
         extract = h1()
         extract.set_options(args)
         extract.content = extract.request(args.url)
-        for element in args.elements[0]:
-            value = extract.extract(element)
+        for pattern in args.patterns[0]:
+            value = extract.extract(pattern)
             if value:
                 print value.group(1)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python h1.py',
-                                     description='',
+                                     description='Pass h1 a url and a series of comma-separated patterns to search for.',
                                      epilog='')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     parser.add_argument("-u", "--url", dest="url", default=False)
-    parser.add_argument("elements", action="append", nargs="*")
+    parser.add_argument("patterns", action="append", nargs="*")
     args = parser.parse_args()
 
     if args.verbose:

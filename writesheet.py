@@ -7,6 +7,7 @@ import doctest
 import csv
 import gspread
 import string
+from h1 import h1
 from oauth2client.client import SignedJwtAssertionCredentials
 from collections import defaultdict
 try:
@@ -86,7 +87,20 @@ class Sheet:
                 # Note that update_cell is 1-indexed.
                 worksheet.update_cell(i, 2, row[1].replace(',', ''))
 
-                # Get title
+                # Get title.
+                # If we have a blog post then it's a h1.
+                # If we have an article it's some weird element in a printer-friendly page.
+                extract = h1()
+                extract.content = extract.request(row[0])
+
+                # Blogs have "blogs." in row[0], articles have "www."
+                element = 'h1'
+                if 'www.' in row[0]:
+                    element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
+
+                value = extract.extract(element)
+                if value:
+                    worksheet.update_cell(i, 1, value.group(1))
 
                 # Move URL to the third column
                 worksheet.update_cell(i, 3, row[0])
