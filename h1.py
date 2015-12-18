@@ -39,7 +39,6 @@ class h1:
         if ',' in pattern:
             items = pattern.split(',')
             regex = '.*<%s>([^<]+)<\/%s>' % ( items[0], items[1] )
-        print regex
         result = re.match(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         return result
 

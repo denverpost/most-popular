@@ -81,12 +81,11 @@ class Sheet:
             # that needs to be fixed.
             # row[0] should contain the title, row[1] the PVs, row[2] the URL.
             if 'http://' in row[0]:
-                print row
 
                 # Fix PVs
                 # Note that update_cell is 1-indexed.
-                worksheet.update_cell(i, 2, row[1].replace(',', ''))
-                worksheet.update_cell(i, 2, 'hi')
+                #nocomma = row[1].replace(',', '')
+                #worksheet.update_cell(i, 2, nocomma)
 
                 # Get title.
                 # If we have a blog post then it's a h1.
