@@ -77,25 +77,21 @@ class Sheet:
         i = 0
         for row in cell_list:
             i += 1
-            # If row[0] has 'http://' in it then we're dealing with a GA row
+            # If row[0] is blank then we're dealing with a GA row
             # that needs to be fixed.
             # row[0] should contain the title, row[1] the PVs, row[2] the URL.
-            if 'http://' in row[0]:
-
-                # Fix PVs
-                # Note that update_cell is 1-indexed.
-                #nocomma = row[1].replace(',', '')
-                #worksheet.update_cell(i, 2, nocomma)
+            #if 'http://' in row[0]:
+            if row[0] == '':
 
                 # Get title.
                 # If we have a blog post then it's a h1.
                 # If we have an article it's some weird element in a printer-friendly page.
                 extract = h1()
-                extract.content = extract.request(row[0])
+                extract.content = extract.request(row[2])
 
                 # Blogs have "blogs." in row[0], articles have "www."
                 element = 'h1'
-                if 'www.' in row[0]:
+                if 'www.' in row[2]:
                     element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
 
                 value = extract.extract(element)
@@ -103,7 +99,7 @@ class Sheet:
                     worksheet.update_cell(i, 1, value.group(1))
 
                 # Move URL to the third column
-                worksheet.update_cell(i, 3, row[0])
+                #worksheet.update_cell(i, 3, row[0])
 
         return True
 

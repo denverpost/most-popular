@@ -10,7 +10,7 @@ import re
 
 
 class h1:
-    """ """
+    """ Parse out text of an element."""
 
     def __init__(self):
         self.options = None
@@ -23,6 +23,7 @@ class h1:
 
     def request(self, url, action='GET', headers={}, request_body=''):
         """ Download the asset.
+            >>> self.content = self.request('http://www.denverpost.com/')
             """
         h = httplib2.Http('')
         response, content = h.request(url, action, headers=headers, body=request_body)
@@ -33,7 +34,6 @@ class h1:
 
     def extract(self, pattern):
         """ Return the text first matching element.
-            *** What if we just want an attribute value?
             """
         regex = '.*<%s>([^<]+)<\/%s>' % ( pattern, pattern )
         if ',' in pattern:
@@ -45,7 +45,7 @@ class h1:
 def main(args):
     """ 
         Example command:
-        $ python h1.py --url http://www.denverpost.com/ "h1 class='articleTitle',h1" "title,title"
+        $ python h1.py --url http://www.denverpost.com/ "h1\ class='articleTitle',h1" "title"
         """
     if args:
         extract = h1()
