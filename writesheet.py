@@ -60,6 +60,43 @@ class Sheet:
         self.sheet = self.spread.open(self.sheet_name).worksheet(worksheet)
         return self.sheet
 
+    def dedupe(self, worksheet=None):
+        """ Find sheets that have the same url in there twice.
+            """
+        if not self.sheet or worksheet:
+            self.sheet = self.open_worksheet(worksheet)
+
+        if not worksheet:
+            worksheet = self.worksheet
+
+        cell_list = worksheet.get_all_values()
+        urls = []
+        dupes = []
+        dupecounts = {}
+        # Get the dupes
+        i = 0
+        for row in cell_list:
+            i += 1
+            if row[2] in urls:
+                dupes.append(row[2])
+                dupecounts[row[2]] = 0
+            else:
+                urls.append(row[2])
+
+        print dupes
+        # Tally up the counts of the dupes
+        i = 0
+        for row in cell_list:
+            i += 1
+            if row[2] in dupes:
+                dupecounts[row[2]] += row[1]
+
+        print dupecounts
+        # Update the sheet with the totals
+        print 'done'
+        
+        
+        
     def fix(self, worksheet=None):
         """ Publish the data in whatever permutations we need.
             This assumes the spreadsheet's key names are in the first row.
@@ -137,13 +174,17 @@ def main(args):
         for worksheet in args.sheets[0]:
             print worksheet
             sheet.worksheet = sheet.open_worksheet(worksheet)
-            sheet.fix()
+            if args.dupes == True
+                sheet.dedupe()
+            else:
+                sheet.fix()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python writesheet.py',
                                      description='',
                                      epilog='')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
+    parser.add_argument("-d", "--dupes", dest="dupes", default=False, action="store_true")
     parser.add_argument("sheets", action="append", nargs="*")
     args = parser.parse_args()
 
