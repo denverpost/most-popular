@@ -132,7 +132,7 @@ class Sheet:
             # that needs to be fixed.
             # row[0] should contain the title, row[1] the PVs, row[2] the URL.
             #if 'http://' in row[0]:
-            if row[0] == '':
+            if row[0] == '' and row[1] != '':
 
                 # Get title.
                 # If we have a blog post then it's a h1.
