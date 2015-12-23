@@ -83,16 +83,30 @@ class Sheet:
             else:
                 urls.append(row[2])
 
-        print dupes
         # Tally up the counts of the dupes
         i = 0
         for row in cell_list:
             i += 1
             if row[2] in dupes:
-                dupecounts[row[2]] += row[1]
+                dupecounts[row[2]] += int(row[1])
 
         print dupecounts
         # Update the sheet with the totals
+        dupekills = []
+        i = 0
+        for row in cell_list:
+            i += 1
+            if row[2] in dupekills:
+                # We've already added it to the sheet. Kill it.
+                index = dupekills.index(row[2])
+                del dupekills[index]
+                worksheet.update_cell(i, 1, '')
+                worksheet.update_cell(i, 2, '')
+                worksheet.update_cell(i, 3, '')
+            elif row[2] in dupes:
+                worksheet.update_cell(i, 2, dupecounts[row[2]])
+                dupekills.append(row[2])
+
         print 'done'
         
         
@@ -174,7 +188,7 @@ def main(args):
         for worksheet in args.sheets[0]:
             print worksheet
             sheet.worksheet = sheet.open_worksheet(worksheet)
-            if args.dupes == True
+            if args.dupes == True:
                 sheet.dedupe()
             else:
                 sheet.fix()
