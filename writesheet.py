@@ -87,16 +87,26 @@ class Sheet:
                 # If we have a blog post then it's a h1.
                 # If we have an article it's some weird element in a printer-friendly page.
                 extract = h1()
+
+                if 'newsfuze.com' in row[2]:
+                    row[2] = row[2].replace('newsfuze', 'denverpost')
+                    worksheet.update_cell(i, 3, row[2])
+
                 extract.content = extract.request(row[2])
 
                 # Blogs have "blogs." in row[0], articles have "www."
                 element = 'h1'
-                if 'www.' in row[2]:
+                if 'www.denverpost.com' in row[2]:
                     element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
+                elif 'cannabist.co' in row[2]:
+                    element = 'h1\ class="entry-title",h1'
 
                 value = extract.extract(element)
                 if value:
-                    worksheet.update_cell(i, 1, value.group(1))
+                    try:
+                        worksheet.update_cell(i, 1, value.group(1))
+                    except:
+                        print value.group(1)
 
                 # Move URL to the third column
                 #worksheet.update_cell(i, 3, row[0])
