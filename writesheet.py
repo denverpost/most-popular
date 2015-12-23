@@ -178,6 +178,8 @@ class Sheet:
                     element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
                 elif 'cannabist.co' in row[2]:
                     element = 'h1\ class="entry-title",h1'
+                elif 'heyreverb' in row[2]:
+                    element = 'h1\ class="entry-title",h1'
 
                 value = extract.extract(element)
                 if value:
