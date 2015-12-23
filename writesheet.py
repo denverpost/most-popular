@@ -91,6 +91,9 @@ class Sheet:
                 if 'newsfuze.com' in row[2]:
                     row[2] = row[2].replace('newsfuze', 'denverpost')
                     worksheet.update_cell(i, 3, row[2])
+                elif row[2][0] == '/':
+                    row[2] = 'http://www.denverpost.com%s' % row[2]
+                    worksheet.update_cell(i, 3, row[2])
 
                 extract.content = extract.request(row[2])
 
