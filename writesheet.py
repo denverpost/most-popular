@@ -60,6 +60,21 @@ class Sheet:
         self.sheet = self.spread.open(self.sheet_name).worksheet(worksheet)
         return self.sheet
 
+    def publish(self, worksheet=None):
+        """ Print out markup for a list.
+            """
+        if not self.sheet or worksheet:
+            self.sheet = self.open_worksheet(worksheet)
+
+        if not worksheet:
+            worksheet = self.worksheet
+
+        cell_list = worksheet.get_all_values()
+        i = 0
+        for row in cell_list:
+            i += 1
+            print '<li><a href="%s">%s</a></li>' % ( row[2], row[0] )
+
     def dedupe(self, worksheet=None):
         """ Find sheets that have the same url in there twice.
             """
@@ -186,12 +201,13 @@ def main(args):
         sheet = Sheet('popular')
         sheet.set_options(args)
         for worksheet in args.sheets[0]:
-            print worksheet
             sheet.worksheet = sheet.open_worksheet(worksheet)
-            if args.dupes == True:
-                sheet.dedupe()
+            if args.publish == True:
+                sheet.publish()
             else:
+                print worksheet
                 sheet.fix()
+                sheet.dedupe()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python writesheet.py',
@@ -199,6 +215,7 @@ if __name__ == '__main__':
                                      epilog='')
     parser.add_argument("-v", "--verbose", dest="verbose", default=False, action="store_true")
     parser.add_argument("-d", "--dupes", dest="dupes", default=False, action="store_true")
+    parser.add_argument("-p", "--publish", dest="publish", default=False, action="store_true")
     parser.add_argument("sheets", action="append", nargs="*")
     args = parser.parse_args()
 
