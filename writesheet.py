@@ -91,6 +91,15 @@ class Sheet:
                 if 'newsfuze.com' in row[2]:
                     row[2] = row[2].replace('newsfuze', 'denverpost')
                     worksheet.update_cell(i, 3, row[2])
+                elif 'dailycamera.com' in row[2]:
+                    row[2] = row[2].replace('dailycamera', 'denverpost')
+                    worksheet.update_cell(i, 3, row[2])
+                elif 'mercurynews.com' in row[2]:
+                    row[2] = row[2].replace('mercurynews', 'denverpost')
+                    worksheet.update_cell(i, 3, row[2])
+                elif 'timescall.com' in row[2]:
+                    row[2] = row[2].replace('timescall', 'denverpost')
+                    worksheet.update_cell(i, 3, row[2])
                 elif row[2][0] == '/':
                     row[2] = 'http://www.denverpost.com%s' % row[2]
                     worksheet.update_cell(i, 3, row[2])
@@ -126,6 +135,7 @@ def main(args):
         sheet = Sheet('popular')
         sheet.set_options(args)
         for worksheet in args.sheets[0]:
+            print worksheet
             sheet.worksheet = sheet.open_worksheet(worksheet)
             sheet.fix()
 
