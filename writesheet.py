@@ -73,10 +73,14 @@ class Sheet:
         i = 0
         for row in cell_list:
             i += 1
-            print '<li><a href="%s">%s</a></li>' % ( row[2], row[0] )
+            try:
+                print '<li><a href="%s">%s</a></li>' % ( row[2], row[0] )
+            except:
+                pass
 
-    def dedupe(self, worksheet=None):
-        """ Find sheets that have the same url in there twice.
+    def adddupe(self, worksheet=None):
+        """ Find sheets that have the same url in there twice, and
+            add their PVs together.
             """
         if not self.sheet or worksheet:
             self.sheet = self.open_worksheet(worksheet)
@@ -121,6 +125,34 @@ class Sheet:
             elif row[2] in dupes:
                 worksheet.update_cell(i, 2, dupecounts[row[2]])
                 dupekills.append(row[2])
+
+        print 'done'
+    
+    def dedupe(self, worksheet=None):
+        """ Find sheets that have the same url in there twice, and
+            kill the other one.
+            """
+        if not self.sheet or worksheet:
+            self.sheet = self.open_worksheet(worksheet)
+
+        if not worksheet:
+            worksheet = self.worksheet
+
+        cell_list = worksheet.get_all_values()
+        urls = []
+        dupes = []
+
+        # Get the dupes
+        i = 0
+        for row in cell_list:
+            i += 1
+            if row[2] in urls:
+                dupes.append(row[2])
+                worksheet.update_cell(i, 1, '')
+                worksheet.update_cell(i, 2, '')
+                worksheet.update_cell(i, 3, '')
+            else:
+                urls.append(row[2])
 
         print 'done'
         
