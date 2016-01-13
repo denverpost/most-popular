@@ -240,8 +240,8 @@ def main(args):
                 sheet.publish()
             else:
                 print worksheet
-                sheet.fix()
                 sheet.dedupe()
+                sheet.fix()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python writesheet.py',

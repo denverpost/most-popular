@@ -6,7 +6,7 @@ When figuring out Oauth2 access, always always use http://gspread.readthedocs.or
 # License
 The MIT License (MIT)
 
-Copyright (c) 2015 denverpost
+Copyright © 2015-2016 The Denver Post denverpost
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
