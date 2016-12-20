@@ -1,4 +1,5 @@
 # Most Popular
+Generate the markup for our year-end most-pop lists. Also, Google Analytics doesn't publish headlines with its PVs, so we need to be able to add that data to the spreadsheet.
 
 # Dev notes
 When figuring out Oauth2 access, always always use http://gspread.readthedocs.org/en/latest/oauth2.html
@@ -6,7 +7,7 @@ When figuring out Oauth2 access, always always use http://gspread.readthedocs.or
 # License
 The MIT License (MIT)
 
-Copyright © 2015-2016 The Denver Post denverpost
+Copyright © 2015-2016 The Denver Post 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

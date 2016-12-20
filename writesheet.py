@@ -177,46 +177,46 @@ class Sheet:
             i += 1
             # If row[0] is blank then we're dealing with a GA row
             # that needs to be fixed.
-            # row[0] should contain the title, row[1] the PVs, row[2] the URL.
+            # row[0] should contain the title, row[1] the URL, row[2] the PVs.
             #if 'http://' in row[0]:
-            if row[0] == '' and row[1] != '':
+            if row[0] == '' and row[2] != '':
 
                 # Get title.
                 # If we have a blog post then it's a h1.
                 # If we have an article it's some weird element in a printer-friendly page.
                 extract = h1()
 
-                if 'newsfuze.com' in row[2]:
-                    row[2] = row[2].replace('newsfuze', 'denverpost')
-                    worksheet.update_cell(i, 3, row[2])
-                elif 'dailycamera.com' in row[2]:
-                    row[2] = row[2].replace('dailycamera', 'denverpost')
-                    worksheet.update_cell(i, 3, row[2])
-                elif 'mercurynews.com' in row[2]:
-                    row[2] = row[2].replace('mercurynews', 'denverpost')
-                    worksheet.update_cell(i, 3, row[2])
-                elif 'timescall.com' in row[2]:
-                    row[2] = row[2].replace('timescall', 'denverpost')
-                    worksheet.update_cell(i, 3, row[2])
-                elif row[2][0] == '/':
-                    row[2] = 'http://www.denverpost.com%s' % row[2]
-                    worksheet.update_cell(i, 3, row[2])
+                if 'newsfuze.com' in row[1]:
+                    row[1] = row[1].replace('newsfuze', 'denverpost')
+                    worksheet.update_cell(i, 3, row[1])
+                elif 'dailycamera.com' in row[1]:
+                    row[1] = row[1].replace('dailycamera', 'denverpost')
+                    worksheet.update_cell(i, 3, row[1])
+                elif 'mercurynews.com' in row[1]:
+                    row[1] = row[1].replace('mercurynews', 'denverpost')
+                    worksheet.update_cell(i, 3, row[1])
+                elif 'timescall.com' in row[1]:
+                    row[1] = row[1].replace('timescall', 'denverpost')
+                    worksheet.update_cell(i, 3, row[1])
+                elif row[1][0] == '/':
+                    row[1] = 'http://www.denverpost.com%s' % row[1]
+                    worksheet.update_cell(i, 3, row[1])
 
-                extract.content = extract.request(row[2])
+                extract.content = extract.request(row[1])
 
                 # Blogs have "blogs." in row[0], articles have "www."
                 element = 'h1'
-                if 'www.denverpost.com' in row[2]:
+                if 'www.denverpost.com' in row[1]:
                     element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
-                elif 'cannabist.co' in row[2]:
+                elif 'cannabist.co' in row[1]:
                     element = 'h1\ class="entry-title",h1'
-                elif 'heyreverb' in row[2]:
+                elif 'heyreverb' in row[1]:
                     element = 'h1\ class="entry-title",h1'
 
                 value = extract.extract(element)
                 if value:
                     try:
-                        worksheet.update_cell(i, 1, value.group(1))
+                        worksheet.update_cell(i, 2, value.group(1))
                     except:
                         print value.group(1)
 
