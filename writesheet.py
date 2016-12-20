@@ -215,9 +215,11 @@ class Sheet:
 
                 if value:
                     try:
+                        if '\\' in value:
+                            value = value.replace('\\', '')
                         worksheet.update_cell(i, 1, value)
                     except:
-                        print value.group(1)
+                        print value
 
                 # Move URL to the third column
                 #worksheet.update_cell(i, 3, row[0])

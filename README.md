@@ -6,6 +6,12 @@ When figuring out Oauth2 access, always always use http://gspread.readthedocs.or
 
 Be sure to share the spreadsheet with the email address stored in the ACCOUNT_USER env var.
 
+# Workflow
+
+1. Get the report for all articles
+2. Use writesheet.py to get the headlines into the spreadsheet (if you put all articles in the tab named "all," `python writesheet.py all` will do that. Unicode errors will output to the command line, just add those into the spreadsheet by hand. When the script stops and is restarted, it picks up where it left off (it starts at the first empty title row).
+3. Currently we don't have a way to get the article section, so that work needs to be done by hand.
+
 # License
 The MIT License (MIT)
 
