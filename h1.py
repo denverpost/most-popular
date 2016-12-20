@@ -26,6 +26,8 @@ class h1:
             >>> self.content = self.request('http://www.denverpost.com/')
             """
         h = httplib2.Http('')
+        if 'http' not in url:
+            url = 'http://%s' % url
         response, content = h.request(url, action, headers=headers, body=request_body)
         if response.status > 299:
             print 'ERROR: HTTP response %s' % response.status
@@ -40,6 +42,16 @@ class h1:
             items = pattern.split(',')
             regex = '.*<%s>([^<]+)<\/%s>' % ( items[0], items[1] )
         result = re.match(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        if result.group:
+            result = result.group(1)
+        return result
+
+    def extract_anything(self, regex):
+        """ Return text matching a given regex.
+            """
+        result = re.search(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE)
+        if result:
+            result = result.group(1)
         return result
 
 def main(args):
@@ -54,7 +66,7 @@ def main(args):
         for pattern in args.patterns[0]:
             value = extract.extract(pattern)
             if value:
-                print value.group(1)
+                print value
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python h1.py',

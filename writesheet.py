@@ -74,7 +74,7 @@ class Sheet:
         for row in cell_list:
             i += 1
             try:
-                print '<li><a href="%s">%s</a></li>' % ( row[2], row[0] )
+                print '<li><a href="%s">%s</a></li>' % ( row[1], row[0] )
             except:
                 pass
 
@@ -96,18 +96,18 @@ class Sheet:
         i = 0
         for row in cell_list:
             i += 1
-            if row[2] in urls:
-                dupes.append(row[2])
-                dupecounts[row[2]] = 0
+            if row[1] in urls:
+                dupes.append(row[1])
+                dupecounts[row[1]] = 0
             else:
-                urls.append(row[2])
+                urls.append(row[1])
 
         # Tally up the counts of the dupes
         i = 0
         for row in cell_list:
             i += 1
-            if row[2] in dupes:
-                dupecounts[row[2]] += int(row[1])
+            if row[1] in dupes:
+                dupecounts[row[1]] += int(row[2])
 
         print dupecounts
         # Update the sheet with the totals
@@ -115,18 +115,18 @@ class Sheet:
         i = 0
         for row in cell_list:
             i += 1
-            if row[2] in dupekills:
+            if row[1] in dupekills:
                 # We've already added it to the sheet. Kill it.
-                index = dupekills.index(row[2])
+                index = dupekills.index(row[1])
                 del dupekills[index]
                 worksheet.update_cell(i, 1, '')
                 worksheet.update_cell(i, 2, '')
                 worksheet.update_cell(i, 3, '')
-            elif row[2] in dupes:
-                worksheet.update_cell(i, 2, dupecounts[row[2]])
-                dupekills.append(row[2])
+            elif row[1] in dupes:
+                worksheet.update_cell(i, 2, dupecounts[row[1]])
+                dupekills.append(row[1])
 
-        print 'done'
+        return True
     
     def dedupe(self, worksheet=None):
         """ Find sheets that have the same url in there twice, and
@@ -146,15 +146,15 @@ class Sheet:
         i = 0
         for row in cell_list:
             i += 1
-            if row[2] in urls:
-                dupes.append(row[2])
+            if row[1] in urls:
+                dupes.append(row[1])
                 worksheet.update_cell(i, 1, '')
                 worksheet.update_cell(i, 2, '')
                 worksheet.update_cell(i, 3, '')
             else:
-                urls.append(row[2])
+                urls.append(row[1])
 
-        print 'done'
+        return True
         
         
         
@@ -205,18 +205,17 @@ class Sheet:
                 extract.content = extract.request(row[1])
 
                 # Blogs have "blogs." in row[0], articles have "www."
-                element = 'h1'
+                element = 'h1\ class="entry-title",h1'
                 if 'www.denverpost.com' in row[1]:
-                    element = 'h1\ id="articleTitle"\ class="articleTitle",h1'
+                    value = extract.extract_anything("'Content\ Title'\ \:\ '(.*)',")
                 elif 'cannabist.co' in row[1]:
-                    element = 'h1\ class="entry-title",h1'
-                elif 'heyreverb' in row[1]:
-                    element = 'h1\ class="entry-title",h1'
+                    value = extract.extract(element)
+                elif 'theknow' in row[1]:
+                    value = extract.extract(element)
 
-                value = extract.extract(element)
                 if value:
                     try:
-                        worksheet.update_cell(i, 2, value.group(1))
+                        worksheet.update_cell(i, 1, value)
                     except:
                         print value.group(1)
 

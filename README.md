@@ -4,6 +4,8 @@ Generate the markup for our year-end most-pop lists. Also, Google Analytics does
 # Dev notes
 When figuring out Oauth2 access, always always use http://gspread.readthedocs.org/en/latest/oauth2.html
 
+Be sure to share the spreadsheet with the email address stored in the ACCOUNT_USER env var.
+
 # License
 The MIT License (MIT)
 
