@@ -74,7 +74,10 @@ class Sheet:
         for row in cell_list:
             i += 1
             try:
-                print '<li><a href="%s">%s</a></li>' % ( row[1], row[0] )
+                if 'http' in row[1]:
+                    print '<li><a href="%s">%s</a></li>' % ( row[1], row[0] )
+                else:
+                    print '<li><a href="http://%s">%s</a></li>' % ( row[1], row[0] )
             except:
                 pass
 
