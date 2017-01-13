@@ -21,7 +21,8 @@ Be sure to share the spreadsheet with the email address stored in the ACCOUNT_US
 ```html
 <li><a href="http://www.denverpost.com/2016/11/05/there-is-no-such-thing-as-the-denver-guardian/">There is no such thing as the Denver Guardian, despite that Facebook post you saw</a></li>
 <li><a href="http://www.denverpost.com/2016/06/02/thunderbird-crash-colorado-springs/">Thunderbirds fighter jet crashes in Colorado Springs after flyover at Air Force Academy graduation</a></li>
-<li><a href="http://www.denverpost.com/2016/06/28/downtown-denver-shooting-wynkoop/">One woman in critical condition, gunman dead after shooting at 15th &amp; Wynkoop in Denver</a></li>```
+<li><a href="http://www.denverpost.com/2016/06/28/downtown-denver-shooting-wynkoop/">One woman in critical condition, gunman dead after shooting at 15th &amp; Wynkoop in Denver</a></li>
+```
 
 # License
 The MIT License (MIT)
