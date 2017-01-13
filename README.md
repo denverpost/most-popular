@@ -17,7 +17,11 @@ Be sure to share the spreadsheet with the email address stored in the ACCOUNT_US
 2. Use writesheet.py to get the headlines into the spreadsheet (if you put all articles in the tab named "all," `python writesheet.py all` will do that. Unicode errors will output to the command line, just add those into the spreadsheet by hand. When the script stops and is restarted, it picks up where it left off (it starts at the first empty title row).
 3. Currently we don't have a way to get the article section, so that work needs to be done by hand.
 4. Create section-specific spreadsheets, one sheet per section. Add the section's items from the "all" spreadsheet to that section-specific sheet.
-5. To turn the section-specific spreadsheet into markup, run `$ python writesheet.py news --publish | head -n 100` (change the "news" to whichever section you're running this on). The `| head -n 100` means "Show only the first 100 lines."
+5. To turn the section-specific spreadsheet into markup, run `$ python writesheet.py news --publish | head -n 100` (change the "news" to whichever section you're running this on). The `| head -n 100` means "Show only the first 100 lines." That will output something like
+```html
+<li><a href="http://www.denverpost.com/2016/11/05/there-is-no-such-thing-as-the-denver-guardian/">There is no such thing as the Denver Guardian, despite that Facebook post you saw</a></li>
+<li><a href="http://www.denverpost.com/2016/06/02/thunderbird-crash-colorado-springs/">Thunderbirds fighter jet crashes in Colorado Springs after flyover at Air Force Academy graduation</a></li>
+<li><a href="http://www.denverpost.com/2016/06/28/downtown-denver-shooting-wynkoop/">One woman in critical condition, gunman dead after shooting at 15th &amp; Wynkoop in Denver</a></li>```
 
 # License
 The MIT License (MIT)
