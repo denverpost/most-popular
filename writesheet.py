@@ -6,9 +6,9 @@ import json
 import doctest
 import csv
 import gspread
-import string
-from h1 import h1
-from oauth2client.client import SignedJwtAssertionCredentials
+from newsmodules.h1 import h1
+#from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 from collections import defaultdict
 try:
     from collections import OrderedDict
@@ -31,11 +31,14 @@ class Sheet:
         if not os.path.isdir('%s/output' % self.directory):
             os.mkdir('%s/output' % self.directory)
 
-        scope = ['https://spreadsheets.google.com/feeds']
-        self.credentials = SignedJwtAssertionCredentials(
-            os.environ.get('ACCOUNT_USER'),
-            string.replace(os.environ.get('ACCOUNT_KEY'), "\\n", "\n"),
-            scope)
+        scopes = ['https://spreadsheets.google.com/feeds',
+                            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive']
+        #self.credentials = SignedJwtAssertionCredentials(
+        #    os.environ.get('ACCOUNT_USER'),
+        #    string.replace(os.environ.get('ACCOUNT_KEY'), "\\n", "\n"),
+        #    scopes)
+        self.credentials = ServiceAccountCredentials.from_json_keyfile_name(os.environ.get('JSON_KEY_PATH'), scopes)
         self.spread = gspread.authorize(self.credentials)
         self.sheet_name = sheet_name
         self.filters = None
@@ -75,9 +78,9 @@ class Sheet:
             i += 1
             try:
                 if 'http' in row[1]:
-                    print '<li><a href="%s">%s</a></li>' % ( row[1], row[0] )
+                    print('<li><a href="%s">%s</a></li>' % ( row[1], row[0] ))
                 else:
-                    print '<li><a href="http://%s">%s</a></li>' % ( row[1], row[0] )
+                    print('<li><a href="http://%s">%s</a></li>' % ( row[1], row[0] ))
             except:
                 pass
 
@@ -112,7 +115,7 @@ class Sheet:
             if row[1] in dupes:
                 dupecounts[row[1]] += int(row[2])
 
-        print dupecounts
+        print(dupecounts)
         # Update the sheet with the totals
         dupekills = []
         i = 0
@@ -222,7 +225,7 @@ class Sheet:
                             value = value.replace('\\', '')
                         worksheet.update_cell(i, 1, value)
                     except:
-                        print value
+                        print(value)
 
                 # Move URL to the third column
                 #worksheet.update_cell(i, 3, row[0])
@@ -243,7 +246,7 @@ def main(args):
             if args.publish == True:
                 sheet.publish()
             else:
-                print worksheet
+                print(worksheet)
                 sheet.dedupe()
                 sheet.fix()
 

@@ -3,10 +3,10 @@
 import os
 import sys
 import doctest
-import string
 import argparse
 import httplib2
 import re
+from pdb import set_trace
 
 
 class h1:
@@ -30,7 +30,7 @@ class h1:
             url = 'http://%s' % url
         response, content = h.request(url, action, headers=headers, body=request_body)
         if response.status > 299:
-            print 'ERROR: HTTP response %s' % response.status
+            print('ERROR: HTTP response %s' % response.status)
             sys.exit(1)
         return content
 
@@ -41,7 +41,7 @@ class h1:
         if ',' in pattern:
             items = pattern.split(',')
             regex = '.*<%s>([^<]+)<\/%s>' % ( items[0], items[1] )
-        result = re.match(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
+        result = re.match(regex, self.content.__str__(), re.MULTILINE|re.VERBOSE|re.IGNORECASE|re.DOTALL)
         if result.group:
             result = result.group(1)
         return result
@@ -49,7 +49,7 @@ class h1:
     def extract_anything(self, regex):
         """ Return text matching a given regex.
             """
-        result = re.search(regex, self.content, re.MULTILINE|re.VERBOSE|re.IGNORECASE)
+        result = re.search(regex, self.content.__str__(), re.MULTILINE|re.VERBOSE|re.IGNORECASE)
         if result:
             result = result.group(1)
         return result
@@ -66,7 +66,7 @@ def main(args):
         for pattern in args.patterns[0]:
             value = extract.extract(pattern)
             if value:
-                print value
+                print(value)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='$ python h1.py',
