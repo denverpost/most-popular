@@ -10,11 +10,7 @@ from newsmodules.h1 import h1
 #from oauth2client.client import SignedJwtAssertionCredentials
 from oauth2client.service_account import ServiceAccountCredentials
 from collections import defaultdict
-try:
-    from collections import OrderedDict
-except ImportError:
-    # python 2.6 or earlier, use backport
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 import argparse
 
 

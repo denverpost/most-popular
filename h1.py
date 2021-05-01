@@ -6,7 +6,7 @@ import doctest
 import argparse
 import httplib2
 import re
-from pdb import set_trace
+import pdb
 
 
 class h1:
@@ -49,7 +49,7 @@ class h1:
     def extract_anything(self, regex):
         """ Return text matching a given regex.
             """
-        result = re.search(regex, self.content.__str__(), re.MULTILINE|re.VERBOSE|re.IGNORECASE)
+        result = re.search(regex, self.content.__str__(), re.VERBOSE)
         if result:
             result = result.group(1)
         return result
